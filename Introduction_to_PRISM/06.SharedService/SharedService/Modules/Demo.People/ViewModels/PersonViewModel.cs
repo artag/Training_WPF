@@ -1,5 +1,5 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
+using System.Windows;
 using Demo.Business;
 using Demo.Infrastructure;
 using Demo.People.Views;
@@ -11,11 +11,18 @@ namespace Demo.People.ViewModels
     public class PersonViewModel : ViewModelBase, IPersonViewModel
     {
         private readonly IEventAggregator _eventAggregator;
+        private readonly IPersonRepository _personRepository;
+
         private Person _person;
 
-        public PersonViewModel(IPersonView view, IEventAggregator eventAggregator) : base(view)
+        public PersonViewModel(
+            IPersonView view,
+            IEventAggregator eventAggregator,
+            IPersonRepository personRepository)
+            : base(view)
         {
             _eventAggregator = eventAggregator;
+            _personRepository = personRepository;
 
             SaveCommand = new DelegateCommand(Save, CanSave);
             GlobalCommands.SaveAllCommand.RegisterCommand(SaveCommand);
@@ -57,7 +64,11 @@ namespace Demo.People.ViewModels
 
         private void Save()
         {
-            Person.LastUpdated = DateTime.Now;
+            var savedCount = _personRepository.Save(Person);
+
+            // Для демонстрации, что сервис создается только один раз.
+            MessageBox.Show(
+                $"Saved: {savedCount}", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
 
             var fullName = $"{Person.LastName}, {Person.FirstName}";
             _eventAggregator.GetEvent<PersonUpdatedEvent>().Publish(fullName);

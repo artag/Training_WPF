@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using Demo.People;
+using Demo.Services;
 using Demo.StatusBar;
 using Demo.ToolBar;
 using Prism.Ioc;
@@ -21,6 +22,7 @@ namespace Demo
         protected override IModuleCatalog CreateModuleCatalog()
         {
             var catalog = new ModuleCatalog();
+            catalog.AddModule<ServicesModule>();
             catalog.AddModule<PeopleModule>();
             catalog.AddModule<StatusBarModule>();
             catalog.AddModule<ToolBarModule>();

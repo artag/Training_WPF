@@ -382,47 +382,7 @@ xcopy "$(TargetDir)*.*" "$(SolutionDir)\PrismDemo\bin\$(ConfigurationName)\$(Tar
 
 Пример использования: реализация команды Save All для нескольких страниц.
 
-### Event Aggregation
-
-* Loosely coupled event based communication (основа - слабая связность на основе 
-  механизма событий)
-
-* Publisher and Subscribers 
-
-* Manages memory related to eventing (может управлять подписками на события - не надо 
-  вручную отписываться от событий).
-
-### EventAggregator
-
-*Основной сервис (резолвится из контейнера)*
-
-* `IEventAggregator` - ответственен за нахождение, создание и хранение event'ов в системе.
-
-* Multicast Pub/Sub (возможно использовать несколько publishers и subscribers).
-
-* Events are typed events derivde from `EventBase`.
-
-* `CompositePresentationEvent<T>` - основной класс.
-
-* `<T>` is the required Payload - где Payload определяет, что посылается subsriber'у,
-  когда event is published.
-
-### IEventAggregator
-
-*Возможности, которые обеспечивает этот интерфейс*.
-
-* Publish events
-
-* Subscribe to events
-
-* Subscribe using a strong reference - `keepSubscribeReferenceAlive` (нужно вручную
-  отписаться от события, когда уничтожается subscriber)
-
-* Event filtering - возможно отфильтровывать события.
-
-* Unsubscribe from events - "ручная" отписка от событий.
-
-### Примеры
+#### Примеры
 
 * `04.Commands\DelegateCommand` - пример использования `DelegateCommand` и `DelegateCommand<T>`
   T может быть либо reference, либо Nullable типа.
@@ -441,6 +401,48 @@ xcopy "$(TargetDir)*.*" "$(SolutionDir)\PrismDemo\bin\$(ConfigurationName)\$(Tar
   4. Кнопка "Save All" становится активной, когда активны все кнопки "Save" на всех вкладках.
   ```
 
+### Event Aggregation
+
+* Loosely coupled event based communication (основа - слабая связность на основе 
+  механизма событий)
+
+* Publisher and Subscribers 
+
+* Manages memory related to eventing (может управлять подписками на события - не надо 
+  вручную отписываться от событий).
+
+#### EventAggregator
+
+*Основной сервис (резолвится из контейнера)*
+
+* `IEventAggregator` - ответственен за нахождение, создание и хранение event'ов в системе.
+
+* Multicast Pub/Sub (возможно использовать несколько publishers и subscribers).
+
+* Events are typed events derivde from `EventBase`.
+
+* `CompositePresentationEvent<T>` - основной класс.
+
+* `<T>` is the required Payload - где Payload определяет, что посылается subsriber'у,
+  когда event is published.
+
+#### IEventAggregator
+
+*Возможности, которые обеспечивает этот интерфейс*.
+
+* Publish events
+
+* Subscribe to events
+
+* Subscribe using a strong reference - `keepSubscribeReferenceAlive` (нужно вручную
+  отписаться от события, когда уничтожается subscriber)
+
+* Event filtering - возможно отфильтровывать события.
+
+* Unsubscribe from events - "ручная" отписка от событий.
+
+#### Пример
+
 * `05.EventAggregator\EventAggregator` - пример использования Event Aggregation.
   ```
   Особенности:
@@ -451,4 +453,40 @@ xcopy "$(TargetDir)*.*" "$(SolutionDir)\PrismDemo\bin\$(ConfigurationName)\$(Tar
   `PersonUpdatedEvent` куда передается имя сохраненного Person.
   4. В StatusBarViewModel через выполняется подписка `IEventAggregator` на событие
   `PersonUpdatedEvent` и добавление обработчика данного события.
+  ```
+
+### Shared Services
+
+*Еще один способ межмодульного взаимодействия в Prism*.
+
+* Custom service - обынный класс, который предоставляет опр. функциональность нескольким
+  модулям. Обычно, доступ к нему выполняется через интерфейс, сервис работает как
+  singleton (создается только один экземпляр).
+
+* Registered with a Service Locator - сервис находится в своем модуле и регистрируется в
+  контейнере (или в чем-то похожем).
+
+* Common Interface - интерфейс, через который вызывается сервис, общедоступен для
+  проектов (модулей), сама же реализация сервиса - нет.
+
+* Concrete implementation doesn't have to be shared
+
+* ContainerControlledLifetimeManager - регистрация сервиса в контейнере выполняется
+  в виде singleton.
+
+#### Пример
+
+* `06.SharedService\SharedService` - пример использования Shared Service.
+  Демонстрация создания сервиса для сохранения Person.
+
+  ```
+  Особенности:
+  1. Включает DelegateCommand и CompositeCommand, валидацию вводимых параметров,
+  релизацию Event Aggregation.
+  2. Общедоступный интерфейс к сервису `IPersonRepository`.
+  3. В `Demo.Services` находится реализация сервиса (не общедоступна). В `ServicesModule`
+  производится регистрация сервиса в контейнере как singleton.
+  4. Зарегистрировать модуль `Demo.Services` в ModuleCatalog (проект `Demo`, класс
+  `App.xaml.cs`).
+  5. `IPersonRepository` используется в `PersonViewModel`.
   ```
