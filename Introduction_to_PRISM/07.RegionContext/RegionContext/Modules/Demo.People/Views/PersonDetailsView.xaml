@@ -1,0 +1,67 @@
+﻿<UserControl
+    x:Class="Demo.People.Views.PersonDetailsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- First Name -->
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="0"
+            Margin="5"
+            Text="First Name:"/>
+        <TextBox
+            Grid.Row="0"
+            Grid.Column="1"
+            Margin="5"
+            Text="{Binding SelectedPerson.FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+
+        <!-- Last Name -->
+        <TextBlock
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="5"
+            Text="Last Name:"/>
+        <TextBox
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="5"
+            Text="{Binding SelectedPerson.LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+
+        <!-- Age -->
+        <TextBlock
+            Grid.Row="2"
+            Grid.Column="0"
+            Margin="5"
+            Text="Age:"/>
+        <TextBox
+            Grid.Row="2"
+            Grid.Column="1"
+            Margin="5"
+            Text="{Binding SelectedPerson.Age, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+
+        <!-- Last Updated -->
+        <TextBlock
+            Grid.Row="3"
+            Grid.Column="0"
+            Margin="5"
+            Text="Last Updated:"/>
+        <TextBlock
+            Grid.Row="3"
+            Grid.Column="1"
+            Margin="5"
+            Text="{Binding SelectedPerson.LastUpdated, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+    </Grid>
+
+</UserControl>

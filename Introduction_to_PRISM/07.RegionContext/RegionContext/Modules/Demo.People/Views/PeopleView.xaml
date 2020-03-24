@@ -1,0 +1,26 @@
+﻿<UserControl
+    x:Class="Demo.People.Views.PeopleView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:inf="clr-namespace:Demo.Infrastructure;assembly=Demo.Infrastructure"
+    xmlns:prism="http://prismlibrary.com/">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <ListBox
+            Name="ListOfPeople"
+            Grid.Row="0"
+            ItemsSource="{Binding Peoples}"/>
+
+        <ContentControl
+            Margin="10"
+            Grid.Row="1"
+            prism:RegionManager.RegionName="{x:Static inf:RegionNames.PersonDetailsRegion}"/>
+
+    </Grid>
+
+</UserControl>
