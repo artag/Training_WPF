@@ -19,7 +19,8 @@
         <ContentControl
             Margin="10"
             Grid.Row="1"
-            prism:RegionManager.RegionName="{x:Static inf:RegionNames.PersonDetailsRegion}"/>
+            prism:RegionManager.RegionName="{x:Static inf:RegionNames.PersonDetailsRegion}"
+            prism:RegionManager.RegionContext="{Binding SelectedItem, ElementName=ListOfPeople}"/>
 
     </Grid>
 

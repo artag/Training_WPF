@@ -490,3 +490,46 @@ xcopy "$(TargetDir)*.*" "$(SolutionDir)\PrismDemo\bin\$(ConfigurationName)\$(Tar
   `App.xaml.cs`).
   5. `IPersonRepository` используется в `PersonViewModel`.
   ```
+
+### Region Context
+
+*Используется для доступа к информации из host-региона и его дочернего региона*.
+
+Например, при выборе одного заказа из нескольких, внизу отображается дополнительная
+информация об этом заказе.
+
+* Share an object between the region host and views inside the region.
+
+* Expose in XAML.
+
+* Expose in Code.
+
+* Only supports DependencyObjects (поддерживаются только View, которые являются 
+  DependencyObject. Если View не является последним, то можно определнить CustomRegion
+  и через него использовать нужный View).
+
+* Don't use DataContext (DataContext используется для связи ViewModel и View. Поэтому,
+  не рекомендуется использовать механизм DataContext для предоставления доступа
+  к общей информации для нескольких слабосвязанных Views).
+
+#### Пример
+
+* `07.RegionContext\RegionContext` - пример использования Region Context.
+  Демонстрация отображения деталей для выбранного человека из списка.
+
+  ```
+  Особенности:
+  1) PeopleView.xaml - содержит список людей (ListBox) и дочерний регион PersonDetailRegion
+  (в ContentControl).
+  2) PersonDetailView.xaml - дополнительная информация о выбранном Person.
+  3) PersonDetailView - демонстрируется подход View First Approach (View создает ViewModel).
+  Необязательно так же делать (это сделано для демонстрации гибкости Prism).
+
+  Реадизация Region Context:
+  1) В PeopleView.xaml - добавление в ContentControl RegionContext. Привязка RegionContext
+  к SelectedItem элемента ListBox.
+  2) В конструкторе PersonDetailView задается обработчик события PropertyChanged у 
+  ObservableContext у RegionContext.
+  3) Не рекомендуется передавать в DetailView целый объект Person, как это сделано в примере.
+  Лучше передавать id выбранного Person или что-то в таком роде.
+  ```
