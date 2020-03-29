@@ -21,7 +21,7 @@ namespace ModuleA.ViewModels
         public ObservableCollection<Person> People
         {
             get => _people;
-            set
+            private set
             {
                 _people = value;
                 OnPropertyChanged();
