@@ -525,7 +525,7 @@ xcopy "$(TargetDir)*.*" "$(SolutionDir)\PrismDemo\bin\$(ConfigurationName)\$(Tar
   3) PersonDetailView - демонстрируется подход View First Approach (View создает ViewModel).
   Необязательно так же делать (это сделано для демонстрации гибкости Prism).
 
-  Реадизация Region Context:
+  Реализация Region Context:
   1) В PeopleView.xaml - добавление в ContentControl RegionContext. Привязка RegionContext
   к SelectedItem элемента ListBox.
   2) В конструкторе PersonDetailView задается обработчик события PropertyChanged у 
@@ -533,3 +533,47 @@ xcopy "$(TargetDir)*.*" "$(SolutionDir)\PrismDemo\bin\$(ConfigurationName)\$(Tar
   3) Не рекомендуется передавать в DetailView целый объект Person, как это сделано в примере.
   Лучше передавать id выбранного Person или что-то в таком роде.
   ```
+
+## State-Based Navigation
+
+*По сути, обновление одного View, в зависимости от его состояния (анимация, изменение
+видимости каких-либо элементов и т.д.)*.
+
+* State changes to existing controls
+
+* Doesn't replace a View (View не замещается другим View)
+
+* View is updated
+  * State changes in ViewModel (пример: изменение свойства `IsBusy` приводит к появлению
+    окна ожидания).
+  * User interaction (пример: нажатие на кнопку, Drag'n'Drop)
+
+* Easiest to implement
+
+### State-Based Navigation - When to use it
+
+*Когда использовать*.
+
+* Use it
+  * Same data, different style
+  * Change layout based on state
+  * Perform related tasks
+
+* Don't use it
+  * Different data (использование других данных требует создания другого View).
+  * Different task (выполнение задач, не связанных с текущим View).
+  * Complex state changes (если изменения слишком сложны, то иногда проще создать и
+    использовать другой View).
+
+#### Пример. Reflecting Application State.
+
+*Использование Busy Indicator, когда происходит получение данных*.
+
+Пример лежит тут: `08.State-Based Navigation\BusyIndicator`
+
+Особенности:
+* Используется Busy Indicator из библиотеки `Extended.Wpf.Toolkit`.
+* Busy Indicator "оборачивает" ListBox.
+* Управление видимостью окна Busy Indicator выполняется из `ContentAViewModel`.
+* Для демонстрации изменения статуса добавлена кнопка "IsBusy" (в реальном приложении
+  подобная кнопка не нужна).

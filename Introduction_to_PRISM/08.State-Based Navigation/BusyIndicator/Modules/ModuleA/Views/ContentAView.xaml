@@ -1,7 +1,8 @@
 ﻿<UserControl
     x:Class="ModuleA.Views.ContentAView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit">
 
 <UserControl.Resources>
 
@@ -36,12 +37,20 @@
             Margin="10"
             Grid.Row="0"
             Orientation="Horizontal">
+            <ToggleButton
+                Margin="4"
+                Content="IsBusy"
+                IsChecked="{Binding IsBusy}"/>
         </StackPanel>
 
-        <ListBox
+        <xctk:BusyIndicator
             Grid.Row="1"
-            ItemsSource="{Binding People}"
-            ItemTemplate="{StaticResource PersonItemTemplate}"/>
+            BusyContent="Loading People..."
+            IsBusy="{Binding IsBusy}">
+            <ListBox
+                ItemsSource="{Binding People}"
+                ItemTemplate="{StaticResource PersonItemTemplate}"/>
+        </xctk:BusyIndicator>
 
     </Grid>
 </UserControl>

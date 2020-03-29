@@ -11,6 +11,7 @@ namespace ModuleA.ViewModels
     {
         private readonly IPersonService _personService;
         private ObservableCollection<Person> _people;
+        private bool _isBusy;
 
         public ContentAViewModel(IContentAView view, IPersonService personService)
             : base(view)
@@ -28,9 +29,22 @@ namespace ModuleA.ViewModels
             }
         }
 
+        public bool IsBusy
+        {
+            get => _isBusy;
+            set
+            {
+                _isBusy = value;
+                OnPropertyChanged();
+            }
+        }
+
         public async Task LoadPeople()
         {
+            IsBusy = true;
             var people = await _personService.GetPeopleAsync();
+            IsBusy = false;
+
             People = new ObservableCollection<Person>(people);
         }
     }
