@@ -6,6 +6,7 @@
 
 <UserControl.Resources>
 
+    <!-- Отображение людей в виде списка -->
     <DataTemplate x:Key="PersonItemTemplate">
         <StackPanel Margin="5">
             <TextBlock
@@ -25,6 +26,35 @@
                 Text="{Binding Email}"/>
         </StackPanel>
     </DataTemplate>
+
+    <!-- Отображение людей в виде иконок -->
+    <DataTemplate x:Key="PersonIconTemplate">
+        <StackPanel
+            Margin="5"
+            Width="100">
+            <Image
+                Source="{Binding ImagePath}"
+                Height="75"
+                Width="75">
+                <Image.ToolTip>
+                    <TextBlock
+                        FontSize="12"
+                        FontStyle="Italic"
+                        Text="{Binding Email}"/>
+                </Image.ToolTip>
+            </Image>
+            <TextBlock
+                FontSize="14"
+                TextWrapping="Wrap">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}{0}, {1}">
+                        <Binding Path="LastName"/>
+                        <Binding Path="FirstName"/>
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+        </StackPanel>
+    </DataTemplate>
 </UserControl.Resources>
 
     <Grid Margin="25">
@@ -33,23 +63,81 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
+        <!-- Кнопки -->
         <StackPanel
             Margin="10"
             Grid.Row="0"
             Orientation="Horizontal">
+
+            <!-- IsBusy -->
             <ToggleButton
                 Margin="4"
                 Content="IsBusy"
                 IsChecked="{Binding IsBusy}"/>
+
+            <!-- Show List / Show Icons -->
+            <ToggleButton
+                x:Name="switchViewsToggleButton"
+                Margin="4">
+                <ToggleButton.Style>
+                    <Style TargetType="ToggleButton">
+                        <Style.Triggers>
+                            <Trigger
+                                Property="IsChecked"
+                                Value="True">
+                                <Setter
+                                    Property="Content"
+                                    Value="Show List"/>
+                            </Trigger>
+                            <Trigger
+                                Property="IsChecked"
+                                Value="False">
+                                <Setter
+                                    Property="Content"
+                                    Value="Show Icons"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ToggleButton.Style>
+            </ToggleButton>
         </StackPanel>
 
         <xctk:BusyIndicator
             Grid.Row="1"
             BusyContent="Loading People..."
             IsBusy="{Binding IsBusy}">
-            <ListBox
-                ItemsSource="{Binding People}"
-                ItemTemplate="{StaticResource PersonItemTemplate}"/>
+            <ListBox ItemsSource="{Binding People}">
+                <ListBox.Style>
+                    <Style TargetType="ListBox">
+                        <Style.Triggers>
+                            <DataTrigger
+                                Binding="{Binding IsChecked, ElementName=switchViewsToggleButton}"
+                                Value="True">
+                                <Setter
+                                    Property="ItemTemplate"
+                                    Value="{StaticResource PersonIconTemplate}"/>
+                                <Setter
+                                    Property="ScrollViewer.HorizontalScrollBarVisibility"
+                                    Value="Disabled"/>
+                                <Setter Property="ItemsPanel">
+                                    <Setter.Value>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel/>
+                                        </ItemsPanelTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+                            <DataTrigger
+                                Binding="{Binding IsChecked, ElementName=switchViewsToggleButton}"
+                                Value="False">
+                                <Setter
+                                    Property="ItemTemplate"
+                                    Value="{StaticResource PersonItemTemplate}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListBox.Style>
+            </ListBox>
         </xctk:BusyIndicator>
 
     </Grid>

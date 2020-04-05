@@ -565,15 +565,37 @@ xcopy "$(TargetDir)*.*" "$(SolutionDir)\PrismDemo\bin\$(ConfigurationName)\$(Tar
   * Complex state changes (если изменения слишком сложны, то иногда проще создать и
     использовать другой View).
 
-#### Пример. Reflecting Application State.
+#### Пример 1. Reflecting Application State.
 
 *Использование Busy Indicator, когда происходит получение данных*.
 
 Пример лежит тут: `08.State-Based Navigation\BusyIndicator`
 
+```
 Особенности:
-* Используется Busy Indicator из библиотеки `Extended.Wpf.Toolkit`.
-* Busy Indicator "оборачивает" ListBox.
-* Управление видимостью окна Busy Indicator выполняется из `ContentAViewModel`.
-* Для демонстрации изменения статуса добавлена кнопка "IsBusy" (в реальном приложении
+1) Используется Busy Indicator из библиотеки `Extended.Wpf.Toolkit`.
+2) Busy Indicator "оборачивает" ListBox.
+3) Управление видимостью окна Busy Indicator выполняется из `ContentAViewModel`.
+4) Для демонстрации изменения статуса добавлена кнопка "IsBusy" (в реальном приложении
   подобная кнопка не нужна).
+```
+
+Примечание: `Extended.Wpf.Toolkit` может быть не полностью совместим с .NET Core 3.
+
+#### Пример 2. Displaying data in different layouts/
+
+*Для одного View динамически меняется отображение элементов (набор элементов остается неизменным).
+В данном примере элементы отображаются в виде вертикального списка, либо в виде сетки иконок*.
+
+Примечание: отображение иконок у меня так и не заработало (возможно, надо писать конвертер).
+
+Пример лежит тут `08.State-Based Navigation\OneDataDifferentLayouts`.
+
+```
+Особенности:
+1) Сделано на основе предыдущего примера BusyIndicator.
+2) Добавлена кнопка Show List / Show Icons.
+3) Основные изменения сделаны в ContentAView.xaml. Динамически выбираются разные DataTemplate
+для отображения ListBox.
+```
+

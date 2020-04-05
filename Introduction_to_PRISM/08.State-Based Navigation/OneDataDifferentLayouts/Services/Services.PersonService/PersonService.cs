@@ -3,15 +3,15 @@ using System.Threading.Tasks;
 using Demo.Business;
 using Demo.Infrastructure.Services;
 
-namespace Demo.PersonService
+namespace Services.PersonService
 {
     public class PersonService : IPersonService
     {
         private static readonly string Avatar1Uri =
-            @"/Demo.PersonService;component/Images/MC900432625.PNG";
+            @"/Services.PersonService;component/Images/MC900432625.PNG";
 
         private static readonly string Avatar2Uri =
-            @"/Demo.PersonService;component/Images/MC900433938.PNG";
+            @"/Services.PersonService;component/Images/MC900433938.PNG";
 
         public IEnumerable<Person> GetPeople()
         {
@@ -27,7 +27,7 @@ namespace Demo.PersonService
                     Email = GetPersonEmail($"First{i}", $"Last{i}"),
                     ImagePath = GetPersonImagePath(i),
                 };
-                Task.Delay(80).Wait();
+                Task.Delay(1).Wait();
 
                 people.Add(person);
             }

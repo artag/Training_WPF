@@ -1,9 +1,9 @@
 ﻿using System.Windows;
-using Demo.PersonService;
 using ModuleA;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Unity;
+using Services.PersonService;
 
 namespace Demo
 {

@@ -2,7 +2,7 @@
 using Prism.Ioc;
 using Prism.Modularity;
 
-namespace Demo.PersonService
+namespace Services.PersonService
 {
     public class PersonServiceModule : IModule
     {

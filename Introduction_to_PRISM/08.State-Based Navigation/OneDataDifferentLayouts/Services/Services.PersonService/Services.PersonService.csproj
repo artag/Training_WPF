@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -11,6 +11,11 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Business\Demo.Business\Demo.Business.csproj" />
     <ProjectReference Include="..\..\Demo.Infrastructure\Demo.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\MC900432625.PNG" />
+    <Resource Include="Images\MC900433938.PNG" />
   </ItemGroup>
 
 </Project>
