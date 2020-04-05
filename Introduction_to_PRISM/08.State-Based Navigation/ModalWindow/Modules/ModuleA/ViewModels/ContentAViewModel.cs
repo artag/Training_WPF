@@ -4,6 +4,8 @@ using Demo.Business;
 using Demo.Infrastructure;
 using Demo.Infrastructure.Services;
 using ModuleA.Views;
+using Prism.Commands;
+using Xceed.Wpf.Toolkit;
 
 namespace ModuleA.ViewModels
 {
@@ -12,12 +14,18 @@ namespace ModuleA.ViewModels
         private readonly IPersonService _personService;
         private ObservableCollection<Person> _people;
         private bool _isBusy;
+        private Person selectedPerson;
+        private WindowState windowState;
 
         public ContentAViewModel(IContentAView view, IPersonService personService)
             : base(view)
         {
             _personService = personService;
+
+            EditPersonCommand = new DelegateCommand(EditPerson, CanEditPerson);
         }
+
+        public DelegateCommand EditPersonCommand { get; }
 
         public ObservableCollection<Person> People
         {
@@ -25,6 +33,17 @@ namespace ModuleA.ViewModels
             private set
             {
                 _people = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Person SelectedPerson
+        {
+            get => selectedPerson;
+            set
+            {
+                selectedPerson = value;
+                EditPersonCommand.RaiseCanExecuteChanged();
                 OnPropertyChanged();
             }
         }
@@ -46,6 +65,26 @@ namespace ModuleA.ViewModels
             IsBusy = false;
 
             People = new ObservableCollection<Person>(people);
+        }
+
+        public WindowState WindowState
+        {
+            get => windowState;
+            set
+            {
+                windowState = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private void EditPerson()
+        {
+            WindowState = WindowState.Open;
+        }
+
+        private bool CanEditPerson()
+        {
+            return SelectedPerson != null;
         }
     }
 }

@@ -100,13 +100,90 @@
                     </Style>
                 </ToggleButton.Style>
             </ToggleButton>
+
+            <!-- Edit Person -->
+            <Button
+                Margin="4"
+                Content="Edit Person"
+                Command="{Binding EditPersonCommand}"/>
         </StackPanel>
+
+        <xctk:ChildWindow
+            Grid.Row="1"
+            Grid.Column="0"
+            Width="300"
+            Caption="Edit Person"
+            IsModal="True"
+            WindowStartupLocation="Center"
+            WindowState="{Binding WindowState}">
+
+            <Grid
+                Margin="15"
+                DataContext="{Binding SelectedPerson}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock
+                    Margin="5"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Text="First Name:"/>
+                <TextBox
+                    Margin="5"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Text="{Binding FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock
+                    Margin="5"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Text="Last Name:"/>
+                <TextBox
+                    Margin="5"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Text="{Binding LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock
+                    Margin="5"
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Text="Age:"/>
+                <TextBox
+                    Margin="5"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Text="{Binding Age, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock
+                    Margin="5"
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Text="Email:"/>
+                <TextBox
+                    Margin="5"
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </Grid>
+        </xctk:ChildWindow>
 
         <xctk:BusyIndicator
             Grid.Row="1"
             BusyContent="Loading People..."
             IsBusy="{Binding IsBusy}">
-            <ListBox ItemsSource="{Binding People}">
+            <ListBox
+                ItemsSource="{Binding People}"
+                SelectedItem="{Binding SelectedPerson}">
                 <ListBox.Style>
                     <Style TargetType="ListBox">
                         <Style.Triggers>

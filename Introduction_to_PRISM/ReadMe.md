@@ -582,14 +582,14 @@ xcopy "$(TargetDir)*.*" "$(SolutionDir)\PrismDemo\bin\$(ConfigurationName)\$(Tar
 
 Примечание: `Extended.Wpf.Toolkit` может быть не полностью совместим с .NET Core 3.
 
-#### Пример 2. Displaying data in different layouts/
+#### Пример 2. Displaying data in different layouts.
 
 *Для одного View динамически меняется отображение элементов (набор элементов остается неизменным).
 В данном примере элементы отображаются в виде вертикального списка, либо в виде сетки иконок*.
 
-Примечание: отображение иконок у меня так и не заработало (возможно, надо писать конвертер).
+Пример лежит тут: `08.State-Based Navigation\OneDataDifferentLayouts`.
 
-Пример лежит тут `08.State-Based Navigation\OneDataDifferentLayouts`.
+Примечание: отображение иконок у меня так и не заработало (возможно, надо писать конвертер).
 
 ```
 Особенности:
@@ -599,3 +599,21 @@ xcopy "$(TargetDir)*.*" "$(SolutionDir)\PrismDemo\bin\$(ConfigurationName)\$(Tar
 для отображения ListBox.
 ```
 
+#### Пример 3. User Interaction. Using Child Window.
+
+*Пример использования Child Window для редактирования выделенного пользователя*.
+
+Пример лежит тут: `08.State-Based Navigation\ModalWindow`
+
+Примечание: Child Window из библиотеки `Extended.Wpf.Toolkit` криво отображается:
+1) Стиль окна отличается от системного.
+2) Смещен относительно родительского контрола.
+
+```
+Особенности:
+1) Сделано на основе предыдущего примера OneDataDifferentLayouts.
+2) Используется Child Window из библиотеки `Extended.Wpf.Toolkit`.
+3) Используется DelegateCommand.
+4) DelegateCommand устанавливает WindowState в Open для Child Window.
+5) Child Window в качестве DataContext использует `SelectedPerson`.
+```
