@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Images\MC900432625.PNG" />
+    <None Remove="Images\MC900433938.PNG" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Prism.Wpf" Version="7.2.0.1422" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Business\Demo.Business\Demo.Business.csproj" />
+    <ProjectReference Include="..\..\Demo.Infrastructure\Demo.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\MC900432625.PNG" />
+    <Resource Include="Images\MC900433938.PNG" />
+  </ItemGroup>
+
+</Project>
