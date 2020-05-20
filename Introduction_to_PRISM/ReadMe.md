@@ -617,3 +617,84 @@ xcopy "$(TargetDir)*.*" "$(SolutionDir)\PrismDemo\bin\$(ConfigurationName)\$(Tar
 4) DelegateCommand устанавливает WindowState в Open для Child Window.
 5) Child Window в качестве DataContext использует `SelectedPerson`.
 ```
+
+## View-Based Navigation
+
+### Basic Region Navigation
+
+* View replaces view (переключение View в одном регионе)
+
+* INavigateAsync.RequestNavigate (Async здесь не означает асинхронный)
+
+* Based on URIs (View идентифицируются по их Uri)
+
+* Type must register as Object (View должен регистрироваться в контейнере как object)
+
+* View or ViewModel first
+
+#### RequestNavigate
+
+*RequestNavigate может быть вызван с использованием Region или RegionManager.*
+
+* Region
+```csharp
+IRegion region = ...;
+region.RequestNavigate(new Uri("MyView", UriKind.Relative));
+```
+
+* RegionManager
+```csharp
+IRegionManager regionManager = ...;
+regionManager.RequestNavigate(
+    RegionNames.ContentRegion, new Uri("MyView", UriKind.Relative));
+```
+
+#### Register Types as Object
+
+* Standard registration (стандартная регистрация View)
+```csharp
+Container.RegisterType<HomeView>("HomeView");
+Container.RegisterType<IHomeView, HomeView>("HomeView");
+```
+
+* Navigation registration (регистрация для View, который будет заменяться)
+```csharp
+Container.RegisterType<object, HomeView>("HomeView");
+Container.RegisterType(typeof(object), typeof(HomeView), "HomeView");
+```
+
+#### Navigation Callback
+
+*Callback - метод/делегат, который выполняется когда заканчивается Navigate.*
+
+```csharp
+private void Navigate(string navigatePath)
+{
+    // NavigationCompleted - callback
+    RegionManager.RequestNavigate(
+        RegionNames.ContentRegion, navigatePath, NavigationCompleted);
+}
+
+// NavigationResult - результат после навигации.
+private void NavigationCompleted(NavigationResult result)
+{
+    ...
+}
+```
+
+#### Пример. View-Based Navigation. Basic Region Navigation.
+
+*Пример навигации. Показ и переключение одного View из нескольких в одном регионе*.
+
+Пример лежит тут: `09.View-Based Navigation\BasicRegionNavigation`
+
+```
+Особенности:
+1) Для навигации используется DelegateCommand и CompositeCommand.
+2) Команды определены в `ShellViewModel` (головной проект).
+3) В модулях A и B, UserControl'ы (кнопки) посылают команду (CompositeCommand) на включение
+соответствующего View.
+4) Обратить внимание как выполняется регистрация переключаемых View в файлах модулей.
+5) В `ShellViewModel` обрабатывается команда и через Region Manager устанавливается требуемый View.
+6) После выполнения навигации возможен вызов делегата.
+```

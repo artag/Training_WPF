@@ -17,7 +17,18 @@ namespace ModuleA
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.Register<ViewA>();
+            // Такой вид регистрации View не позволяет выполнить навигацию
+            // containerRegistry.Register<ViewA>();
+
+            // Можно регистрировать View для навигации или так:
+            // containerRegistry.Register<object, ViewA>(typeof(ViewA).FullName);
+
+            // Или с использованием самописного метода расширения RegisterTypeForNavigation
+            // (через контейнер):
+            // container.RegisterTypeForNavigation<ViewA>();
+
+            // Или так:
+            containerRegistry.RegisterForNavigation<ViewA>(typeof(ViewA).FullName);
         }
     }
 }
